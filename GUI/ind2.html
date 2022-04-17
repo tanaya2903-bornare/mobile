@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Recommendation System</title>
+    <script src="/eel.js"></script>
+    <script>
+        //This is main js code
+
+
+            var dict=new Object();
+            var dict={
+                ram:ram,
+                rom:rom,
+                camera:camera,
+                battery:battery,
+                // processor:processor,
+                size:size,
+                rating:rating,
+                budget:budget,
+            }
+            // alert('Selected'+" "+"Ram:"+ram+" "+"Rom:"+rom+" "+"Camera: "+camera+" "+"Battery: "+battery+" "+"Processor: "+processor+" "+" Size:"+size+" "+"Warranty"+warranty+" "+"Budget:"+budget)
+            //this function is accessible from py
+            eel.recieveDataToPython(dict)
+            var buildImg=document.getElementById('displayResult')
+            buildImg.classList.add('hideBuildImage')
+        }
+        eel.expose(recieveBackToJs);
+        function recieveBackToJs(pyToJs){
+
+
+            var dict={}
+            for (var key in pyToJs) {
+            console.log(key + " -> " +pyToJs[key]['ram']);
+            var displayResult=document.getElementById('displayResult');
+            var html='<div id="displayMsg"><h1>[Name]</h4><img src="[img]" alt="mobile" class="resultMobileImg"><h2>Price:[budget] RS</h2><h2>RAM:[ram] GB</h2><h2>ROM:[rom] GB</h2><h2>Camera:[camera] MP<h2><h2>Battery:[battery] MAh</h2><h2>Processor:[processor]</h2><h2>Size:[size] inch</h2><button>Buy Now</button></div>';
+            var newHtml=html.replace('[ram]',pyToJs[key]['ram']);
+            newHtml=newHtml.replace('[rom]',pyToJs[key]['rom']);
+            newHtml=newHtml.replace('[Name]',key);
+            newHtml=newHtml.replace('[camera]',pyToJs[key]['camera']);
+            newHtml=newHtml.replace('[battery]',pyToJs[key]['battery']);
+            newHtml=newHtml.replace('[processor]',pyToJs[key]['processor']);
+            newHtml=newHtml.replace('[size]',pyToJs[key]['size']);
+            newHtml=newHtml.replace('[img]',pyToJs[key]['image']);
+            newHtml=newHtml.replace('[budget]',pyToJs[key]['budget']);
+            // displayResult.innerHTML=newHtml;
+            var newElement=document.createElement('div')
+            newElement.innerHTML=newHtml
+            displayResult.insertAdjacentElement("afterend",newElement)
+            }
+
+
+
+        };
+
+        // eel.expose(jsToPy)
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link href="fa/css/all.css" rel="stylesheet">
+    <div class="appHead">
+               <!-- <h1 class="heading">Mobile Recommendation System <i class="fas fa-mobile"></i></h1> -->
+                <div id="displayResult">
+                   <!-- <img src="mobileGif.gif" alt="gif" width="30px" id="mobileGif"> -->
+                    <!-- <div id="displayMsg">
+                        <h1>[Name]</h4>
+                            <img src="[https://rukminim1.flixcart.com/image/312/312/k1fbmvk0/mobile/4/f/f/mi-redmi-8-mzb8251in-original-imafhyacmxaefxgw.jpeg?q=70]
+                            " alt="mobile" class="resultMobileImg">
+                            <h2>[budget]</h2>
+                            <h2>[ram]</h2>
+                            <h2>[rom]</h2>
+                            <h2>[camera]<h2>
+                            <h2>[battery]</h2>
+                            <h2>[processor]</h2>
+                            <h2>[size]</h2>
+                            <button>Buy Now</button>
+                            </div> -->
+
+                </div>
+
+            </div>
+   <div class="findBox">
+                <a href="index.html">
+                    <button onclick="captureAndSend()">back <i class="fas fa-search"></i></button>
+           </a>
+            </div>
+</head>
+
+</html>
